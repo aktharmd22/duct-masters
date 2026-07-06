@@ -1,0 +1,143 @@
+---
+import { Icon } from 'astro-icon/components';
+import { business } from '../data/business';
+import { serviceTypes } from '../data/serviceTypes';
+import { serviceAreas } from '../data/serviceAreas';
+import { serviceUrl, areaUrl } from '../lib/urls';
+import { t } from '../i18n/translations';
+---
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-brand-950 text-white">
+  <div class="mx-auto max-w-7xl px-5 pb-10 pt-16 lg:px-8 lg:pt-20">
+    <!-- Top row: logo + description -->
+    <div class="border-b border-white/10 pb-10">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div class="max-w-md">
+          <a href="/" class="inline-flex items-center gap-2.5">
+            <img
+              src={business.logoWhite}
+              alt="Duct Masters Logo"
+              class="h-8 w-auto brightness-0 invert"
+              width="1441" height="935"
+            />
+          </a>
+          <p class="mt-4 text-sm leading-relaxed text-stone-400">
+            {business.tagline}. Established {business.yearEstablished}, serving contractors and projects across the UAE from our facility in Musaffah, Abu Dhabi.
+          </p>
+        </div>
+
+        <a
+          href={business.phoneHref}
+          class="group inline-flex shrink-0 items-center gap-3 rounded-xl border border-brand-500/30 bg-brand-500/10 px-5 py-3 transition-all hover:bg-brand-500/20 hover:border-brand-500/50"
+        >
+          <div class="flex size-10 items-center justify-center rounded-full bg-brand-500 transition-transform group-hover:scale-110">
+            <Icon name="lucide:phone" class="size-5 text-white" />
+          </div>
+          <div>
+            <p class="text-xs text-stone-400">Call us today</p>
+            <p class="font-semibold text-white">{business.phone}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Link columns -->
+    <div class="grid gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-5">
+      <!-- Column 1: Services -->
+      <div class="lg:col-span-2">
+        <h3 class="bilingual mb-4 text-xs font-semibold uppercase tracking-wider text-stone-500" data-lang-en="Fabrication Services" data-lang-ar="خدمات التشكيل">Fabrication Services</h3>
+        <div class="grid gap-2.5 sm:grid-cols-2">
+          {serviceTypes.map((service) => (
+            <a href={serviceUrl(service.slug)} class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group">
+              <Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />
+              {service.shortName}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Column 2: Service Areas -->
+      <div>
+        <h3 class="bilingual mb-4 text-xs font-semibold uppercase tracking-wider text-stone-500" data-lang-en="Industrial Zones" data-lang-ar="المناطق الصناعية">Industrial Zones</h3>
+        <ul class="space-y-2.5">
+          {serviceAreas.filter(a => a.featured).map((area) => (
+            <li>
+              <a href={areaUrl(area.slug)} class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group">
+                <Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />
+                {area.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Company -->
+      <div>
+        <h3 class="bilingual mb-4 text-xs font-semibold uppercase tracking-wider text-stone-500" data-lang-en="Company" data-lang-ar="الشركة">Company</h3>
+        <ul class="space-y-2.5">
+          <li><a href="/about/" class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group"><Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />About Us</a></li>
+          <li><a href="/services/" class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group"><Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />Services</a></li>
+          <li><a href="/areas/" class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group"><Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />Areas</a></li>
+          <li><a href="/industries/" class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group"><Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />Industries</a></li>
+          <li><a href="/blog/" class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group"><Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />Blog</a></li>
+          <li><a href="/contact/" class="text-sm text-stone-400 transition-colors hover:text-white flex items-center gap-2 group"><Icon name="lucide:chevron-right" class="size-3 text-stone-600 transition-colors group-hover:text-brand-400" />Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact -->
+      <div>
+        <h3 class="bilingual mb-4 text-xs font-semibold uppercase tracking-wider text-stone-500" data-lang-en="Contact" data-lang-ar="معلومات الاتصال">Contact</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-2.5">
+            <Icon name="lucide:map-pin" class="mt-0.5 size-4 shrink-0 text-stone-500" />
+            <span class="text-sm text-stone-400">{business.address.street}, {business.address.city}</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="lucide:phone" class="mt-0.5 size-4 shrink-0 text-stone-500" />
+            <a href={business.phoneHref} class="text-sm text-stone-400 transition-colors hover:text-white">{business.phone}</a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="lucide:smartphone" class="mt-0.5 size-4 shrink-0 text-stone-500" />
+            <a href={`tel:${business.phoneSecondary.replace(/\s/g, '')}`} class="text-sm text-stone-400 transition-colors hover:text-white">{business.phoneSecondary}</a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="lucide:mail" class="mt-0.5 size-4 shrink-0 text-stone-500" />
+            <a href={`mailto:${business.email}`} class="text-sm text-stone-400 transition-colors hover:text-white">{business.email}</a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Icon name="lucide:clock" class="mt-0.5 size-4 shrink-0 text-stone-500" />
+            <div class="text-sm text-stone-400">
+              {business.hours.map((schedule) => (
+                <p>{schedule.days}: {schedule.hours}</p>
+              ))}
+            </div>
+          </li>
+        </ul>
+
+        <!-- WhatsApp CTA -->
+        <a
+          href={business.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-green-500"
+        >
+          <Icon name="lucide:message-circle" class="size-4" />
+          <span class="bilingual" data-lang-en="Chat on WhatsApp" data-lang-ar="محادثة واتساب">Chat on WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row">
+      <p class="text-xs text-stone-600">
+        &copy; {new Date().getFullYear()} {business.legalName}. All rights reserved.
+      </p>
+      <div class="flex items-center gap-4 text-xs text-stone-600">
+        <span>{business.license}</span>
+        <span class="text-stone-700">|</span>
+        <span>HVAC Duct Manufacturing Abu Dhabi</span>
+      </div>
+    </div>
+  </div>
+</footer>

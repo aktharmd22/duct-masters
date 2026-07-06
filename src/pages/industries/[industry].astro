@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { Icon } from 'astro-icon/components';
+import { business } from '../../data/business';
+import { serviceTypes } from '../../data/serviceTypes';
+import { serviceUrl, contactUrl } from '../../lib/urls';
+
+interface IndustryData {
+  slug: string;
+  name: string;
+  description: string;
+  services: string[];
+  whyDuctMasters: string;
+}
+
+const industries: Record<string, IndustryData> = {
+  'hvac-contractors': {
+    slug: 'hvac-contractors',
+    name: 'HVAC Contractors',
+    description: 'Duct Masters partners with HVAC contractors across Abu Dhabi and the UAE, providing reliable duct manufacturing, sheet metal fabrication, and custom metal works to support air conditioning and ventilation projects of all sizes.',
+    services: ['duct-fabrication', 'sheet-metal-fabrication', 'supply-delivery', 'design-engineering'],
+    whyDuctMasters: 'We understand the HVAC contractor workflow — from shop drawings to site delivery. Our Musaffah facility is equipped to handle project-scale duct manufacturing with the quality and lead times contractors depend on.',
+  },
+  'mep-contractors': {
+    slug: 'mep-contractors',
+    name: 'MEP Contractors',
+    description: 'Supporting MEP contractors with HVAC duct manufacturing, sheet metal fabrication, and custom metal components. Duct Masters provides coordinated fabrication services that integrate with mechanical, electrical, and plumbing project requirements across Abu Dhabi.',
+    services: ['duct-fabrication', 'sheet-metal-fabrication', 'custom-industrial-fabrication', 'supply-delivery'],
+    whyDuctMasters: 'MEP projects require coordinated delivery across multiple trades. We work to your schedule, providing ductwork and fabricated components that match your specifications and arrive when you need them.',
+  },
+  'construction-companies': {
+    slug: 'construction-companies',
+    name: 'Construction Companies',
+    description: 'Duct Masters supplies construction companies with HVAC ductwork, sheet metal components, and custom fabricated products for commercial, residential, and infrastructure projects across Abu Dhabi and the UAE.',
+    services: ['duct-fabrication', 'sheet-metal-fabrication', 'metal-rolling-punching', 'supply-delivery'],
+    whyDuctMasters: 'Construction projects demand reliability. We deliver manufactured ductwork and metal components on schedule, to specification, with the quality documentation your project requires.',
+  },
+  'industrial-facilities': {
+    slug: 'industrial-facilities',
+    name: 'Industrial Facilities',
+    description: 'Custom metal fabrication and HVAC duct manufacturing for industrial facilities — factories, processing plants, warehouses, and production units. Duct Masters provides heavy-duty ductwork and industrial-grade fabricated components.',
+    services: ['duct-fabrication', 'welding-services', 'custom-industrial-fabrication', 'powder-coating-finishing'],
+    whyDuctMasters: 'Industrial environments demand robust fabrication. We work with thicker gauges, stainless steel, and industrial coatings to ensure durability in demanding conditions.',
+  },
+  'commercial-buildings': {
+    slug: 'commercial-buildings',
+    name: 'Commercial Buildings',
+    description: 'HVAC duct manufacturing and sheet metal fabrication for commercial buildings — offices, retail, hotels, hospitals, and mixed-use developments. Duct Masters provides high-quality ductwork that meets commercial building standards.',
+    services: ['duct-fabrication', 'sheet-metal-fabrication', 'design-engineering', 'supply-delivery'],
+    whyDuctMasters: 'Commercial buildings require consistent quality across large volumes of ductwork. Our CNC-equipped facility delivers uniform, precision-manufactured products at commercial scale.',
+  },
+  'warehouses-logistics-facilities': {
+    slug: 'warehouses-logistics-facilities',
+    name: 'Warehouses & Logistics Facilities',
+    description: 'Duct Masters provides HVAC duct manufacturing and metal fabrication for warehouses, distribution centers, and logistics facilities. Large-volume ductwork, industrial ventilation systems, and custom metal components.',
+    services: ['duct-fabrication', 'sheet-metal-fabrication', 'supply-delivery', 'welding-services'],
+    whyDuctMasters: 'Warehouse and logistics projects require efficient, cost-effective ductwork solutions. We provide volume manufacturing with competitive pricing and reliable delivery.',
+  },
+  'factories-manufacturing-units': {
+    slug: 'factories-manufacturing-units',
+    name: 'Factories & Manufacturing Units',
+    description: 'Custom industrial fabrication and HVAC duct systems for factories and manufacturing units in Abu Dhabi and the UAE. Dust extraction ductwork, process ventilation, and custom metal fabrications.',
+    services: ['duct-fabrication', 'custom-industrial-fabrication', 'welding-services', 'powder-coating-finishing'],
+    whyDuctMasters: 'Manufacturing facilities have unique requirements — from process exhaust to dust collection. We fabricate to your specifications using the right materials and finishes for your operating environment.',
+  },
+  'infrastructure-projects': {
+    slug: 'infrastructure-projects',
+    name: 'Infrastructure Projects',
+    description: 'Supporting UAE infrastructure projects with HVAC duct manufacturing, sheet metal fabrication, and custom metal components. Duct Masters provides project-scale fabrication for airports, metro stations, tunnels, and public facilities.',
+    services: ['duct-fabrication', 'sheet-metal-fabrication', 'custom-industrial-fabrication', 'design-engineering'],
+    whyDuctMasters: 'Infrastructure projects demand the highest standards of quality and documentation. We provide full traceability, material certifications, and QC documentation for every order.',
+  },
+};
+
+export function getStaticPaths() {
+  const slugs = [
+    'hvac-contractors', 'mep-contractors', 'construction-companies',
+    'industrial-facilities', 'commercial-buildings', 'warehouses-logistics-facilities',
+    'factories-manufacturing-units', 'infrastructure-projects',
+  ];
+  return slugs.map((slug) => ({ params: { industry: slug } }));
+}
+
+const { industry } = Astro.params;
+const data = industries[industry as string];
+
+if (!data) {
+  Astro.response.status = 404;
+}
+---
+
+{!data ? (
+  <BaseLayout title="Page Not Found" description="Industry page not found.">
+    <div class="mx-auto max-w-3xl px-5 py-20 text-center">
+      <h1 class="font-display text-3xl text-brand-900">Page Not Found</h1>
+      <a href="/" class="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white">Return Home</a>
+    </div>
+  </BaseLayout>
+) : (
+  <BaseLayout
+    title={`${data.name} | HVAC Duct Manufacturing | ${business.name}`}
+    description={data.description}
+  >
+    <Breadcrumbs crumbs={[{ label: 'Industries', href: '/industries/' }, { label: data.name }]} />
+
+    <section class="bg-gradient-to-br from-brand-900 to-brand-800 py-16 lg:py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <h1 class="font-display text-4xl text-white sm:text-5xl">{data.name}</h1>
+        <p class="mt-4 max-w-2xl text-lg text-brand-200">{data.description}</p>
+      </div>
+    </section>
+
+    <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+      <div class="grid gap-12 lg:grid-cols-3">
+        <div class="lg:col-span-2 prose-editorial max-w-none">
+          <h2>Serving {data.name} Across Abu Dhabi</h2>
+          <p>{data.description}</p>
+          <p>{data.whyDuctMasters}</p>
+          <p>Based in M-40, Musaffah, {business.name} has been serving contractors, developers, and project owners across Abu Dhabi since {business.yearEstablished}. Contact us to discuss how we can support your next {data.name.toLowerCase()} project.</p>
+        </div>
+
+        <aside class="space-y-8">
+          <div class="rounded-xl border border-stone-200 bg-stone-50 p-6">
+            <h3 class="font-display text-lg text-brand-900">Relevant Services</h3>
+            <ul class="mt-4 space-y-2">
+              {data.services.map((slug) => {
+                const svc = serviceTypes.find((s) => s.slug === slug);
+                if (!svc) return null;
+                return (
+                  <li>
+                    <a href={serviceUrl(svc.slug)} class="flex items-center gap-2 text-sm text-brand-600 hover:text-brand-700">
+                      <Icon name="lucide:arrow-right" class="size-3.5" />
+                      {svc.name}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <div class="rounded-xl bg-brand-900 p-6 text-center">
+            <h3 class="font-display text-lg text-white">Get a Quote</h3>
+            <p class="mt-2 text-sm text-brand-200">Send us your project details for a competitive quotation.</p>
+            <a href={business.phoneHref} class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600">
+              <Icon name="lucide:phone" class="size-4" />{business.phone}
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <section class="bg-brand-900 py-16">
+      <div class="mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <h2 class="font-display text-2xl text-white sm:text-3xl">Work With Duct Masters</h2>
+        <p class="mx-auto mt-4 max-w-2xl text-brand-200">We provide HVAC duct manufacturing, sheet metal fabrication, and custom metal works for {data.name.toLowerCase()} across Abu Dhabi and the UAE.</p>
+        <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a href={business.phoneHref} class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-400 hover:shadow-md">
+            <Icon name="lucide:phone" class="size-4" />{business.phone}
+          </a>
+          <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-500">
+            <Icon name="lucide:message-circle" class="size-4" />WhatsApp
+          </a>
+          <a href={contactUrl()} class="inline-flex items-center gap-2 rounded-lg border border-brand-300/40 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-800">
+            <Icon name="lucide:mail" class="size-4" />Request a Quote
+          </a>
+        </div>
+      </div>
+    </section>
+  </BaseLayout>
+)}

@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { Icon } from 'astro-icon/components';
+import { business } from '../../data/business';
+import { serviceTypes } from '../../data/serviceTypes';
+import { serviceUrl, contactUrl } from '../../lib/urls';
+---
+
+<BaseLayout
+  title={`Fabrication Services | ${business.name}`}
+  description={`${business.name} offers a full range of HVAC duct manufacturing and metal fabrication services across ${business.serviceRadius}. From sheet metal fabrication to CNC forming and laser cutting.`}
+>
+  <Breadcrumbs crumbs={[{ label: 'Services' }]} />
+
+  <section class="py-12 lg:py-16">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="max-w-3xl animate-fade-up">
+        <h1 class="font-display text-4xl text-brand-900 sm:text-5xl">
+          Our Fabrication Services
+        </h1>
+        <p class="mt-4 text-lg leading-relaxed text-stone-600">
+          {business.name} provides complete metal fabrication solutions from our facility in Musaffah, Abu Dhabi.
+          From HVAC duct manufacturing to precision laser cutting, CNC forming, welding, and custom
+          industrial fabrication — we handle projects of all sizes across {business.serviceRadius}.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16 lg:pb-24">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {serviceTypes.map((service, i) => (
+          <a
+            href={serviceUrl(service.slug)}
+            class={`card-hover group relative rounded-xl border border-stone-200 bg-white p-6 animate-fade-up stagger-${Math.min(i + 1, 6)}`}
+          >
+            <div class="flex size-12 items-center justify-center rounded-lg bg-brand-50 text-brand-700 transition-colors group-hover:bg-brand-100">
+              <Icon name={service.icon} class="size-6" />
+            </div>
+            <h2 class="mt-4 font-display text-lg text-brand-900">{service.name}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-stone-600">
+              {service.description.length > 120 ? service.description.slice(0, 120) + '…' : service.description}
+            </p>
+            <p class="mt-3 text-sm font-semibold text-brand-600">Learn more →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-b from-brand-900 to-brand-950">
+    <div class="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-16">
+      <div class="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+        <div>
+          <h2 class="font-display text-3xl text-white">Need a Custom Fabrication Quote?</h2>
+          <p class="mt-2 text-brand-200">
+            Send us your project drawings and specifications. We provide competitive quotations for all fabrication services.
+          </p>
+        </div>
+        <div class="flex shrink-0 flex-wrap gap-4">
+          <a
+            href={business.phoneHref}
+            class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-brand-600"
+          >
+            <Icon name="lucide:phone" class="size-5" />
+            {business.phone}
+          </a>
+          <a
+            href={contactUrl()}
+            class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/20"
+          >
+            Request a Quote
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

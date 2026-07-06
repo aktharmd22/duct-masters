@@ -1,0 +1,126 @@
+---
+import { Icon } from 'astro-icon/components';
+import { business, yearsInBusiness } from '../../data/business';
+import { serviceTypes } from '../../data/serviceTypes';
+import { serviceAreas, getAreaBySlug, getNearbyAreas } from '../../data/serviceAreas';
+import { serviceUrl, areaUrl, comboUrl, contactUrl } from '../../lib/urls';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SeoFaq from '../../components/SeoFaq.astro';
+import SeoTestimonials from '../../components/SeoTestimonials.astro';
+import type { ServiceArea } from '../../data/serviceAreas';
+
+export function getStaticPaths() {
+  return serviceAreas.map((area) => ({ params: { area: area.slug }, props: { area } }));
+}
+
+interface Props { area: ServiceArea; }
+const { area } = Astro.props;
+const years = yearsInBusiness();
+const nearbyAreas = getNearbyAreas(area);
+const pageTitle = `${area.name} | HVAC Duct Manufacturing & Metal Fabrication`;
+const metaDescription = `${area.name} — ${business.name} provides HVAC duct manufacturing and sheet metal fabrication services in ${area.name}, ${area.county}. Call ${business.phone} for a quotation.`;
+
+const schema = {
+  '@context': 'https://schema.org', '@type': 'HVACBusiness', name: business.name,
+  description: `${business.name} provides HVAC duct manufacturing and sheet metal fabrication in ${area.name}, ${area.county}, Abu Dhabi.`,
+  telephone: business.phone, url: business.website,
+  address: { '@type': 'PostalAddress', streetAddress: business.address.street, addressLocality: area.name, addressRegion: area.county, addressCountry: 'AE' },
+  geo: { '@type': 'GeoCoordinates', latitude: area.lat, longitude: area.lng },
+};
+---
+
+<BaseLayout title={pageTitle} description={metaDescription} schema={schema}>
+  <Breadcrumbs crumbs={[{ label: 'Service Areas', href: '/areas/' }, { label: area.name }]} />
+
+  {/* HERO */}
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-900 to-brand-800 py-16 lg:py-20">
+    <div class="absolute inset-0"><img src="/images/gallery/factory-workshop.webp" alt="" class="h-full w-full object-cover opacity-12" width="1200" height="670" loading="eager" /></div>
+    <div class="relative mx-auto max-w-7xl px-5 lg:px-8">
+      <span class="inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-400 backdrop-blur-sm">
+        <Icon name="lucide:map-pin" class="size-3.5" />{area.county}, Abu Dhabi
+      </span>
+      <h1 class="mt-4 font-display text-3xl text-white sm:text-4xl lg:text-5xl">HVAC Duct Manufacturing in {area.name}</h1>
+      <p class="mt-4 max-w-2xl text-lg text-brand-200">{area.description}</p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href={business.phoneHref} class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-brand-400"><Icon name="lucide:phone" class="size-4" />Call {business.phone}</a>
+        <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-green-500"><Icon name="lucide:message-circle" class="size-4" />WhatsApp</a>
+        <a href={contactUrl()} class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/20"><Icon name="lucide:file-text" class="size-4" />Request a Quote</a>
+      </div>
+    </div>
+  </section>
+
+  {/* CONTENT */}
+  <section class="bg-white py-16 lg:py-20">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="grid items-start gap-12 lg:grid-cols-5">
+        <div class="lg:col-span-3">
+          <h2 class="font-display text-2xl text-brand-900 sm:text-3xl">Serving {area.name} Since {business.yearEstablished}</h2>
+          <div class="mt-6 space-y-4 leading-relaxed text-stone-600">
+            <p>{area.description}</p>
+            <p>Duct Masters has been a trusted provider of HVAC duct manufacturing and sheet metal fabrication to businesses and projects in {area.name} for over {years} years. Based in M-40, Musaffah, our facility is strategically located to serve {area.name} and the surrounding industrial areas with reliable manufacturing, competitive pricing, and on-time delivery.</p>
+            <p>We provide a complete range of fabrication services to {area.name}: HVAC duct manufacturing, sheet metal fabrication, laser cutting, CNC forming, industrial welding, metal rolling and punching, custom fabrication, powder coating, duct system design, and duct supply. Whether your project requires standard ductwork or complex custom fabrications, our CNC-equipped facility and experienced team deliver consistent quality.</p>
+            <p>Our clients in {area.name} include HVAC contractors, MEP consultants, construction companies, industrial facility operators, and infrastructure project teams. We understand the specific requirements of industrial and commercial clients and provide the documentation, quality control, and project support that professional projects demand.</p>
+          </div>
+          <div class="mt-6 flex items-center gap-6 border-t border-stone-100 pt-6 text-sm text-stone-500">
+            <span class="flex items-center gap-1.5"><Icon name="lucide:map-pin" class="size-4 text-brand-600" />{area.name}</span>
+            <span class="flex items-center gap-1.5"><Icon name="lucide:shield-check" class="size-4 text-brand-600" />{business.license}</span>
+            <span class="flex items-center gap-1.5"><Icon name="lucide:factory" class="size-4 text-brand-600" />M-40, Musaffah</span>
+          </div>
+        </div>
+        <div class="lg:col-span-2 space-y-6">
+          <div class="relative overflow-hidden rounded-2xl shadow-lg"><img src="/images/gallery/laser-machine-operator.webp" alt="Precision fabrication at Duct Masters" class="w-full object-cover" width="1200" height="670" loading="lazy" /></div>
+          <div class="rounded-xl border border-stone-200 bg-stone-50 p-6">
+            <h3 class="font-semibold text-brand-900">Quick Facts</h3>
+            <dl class="mt-3 space-y-2 text-sm"><div class="flex justify-between"><dt class="text-stone-500">Region</dt><dd class="font-medium">{area.county}</dd></div><div class="flex justify-between"><dt class="text-stone-500">Nearby Zones</dt><dd class="font-medium">{nearbyAreas.length} locations</dd></div><div class="flex justify-between"><dt class="text-stone-500">Facility</dt><dd class="font-medium">{business.address.street}</dd></div></dl>
+            <a href={business.phoneHref} class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Icon name="lucide:phone" class="size-4" />{business.phone}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SERVICES AVAILABLE */}
+  <section class="border-t border-stone-200/60 bg-gradient-to-b from-stone-50 to-white py-16 lg:py-20">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <h2 class="text-center font-display text-2xl text-brand-900 sm:text-3xl">Fabrication Services Available in {area.name}</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-center text-stone-600">Duct Masters provides the full range of metal fabrication services to {area.name}. Select a service for details specific to this location.</p>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {serviceTypes.map((service) => (
+          <a href={comboUrl(area.slug, service.slug)} class="group rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5">
+            <div class="flex items-center gap-3"><Icon name={service.icon} class="size-5 text-brand-600" /><h3 class="font-semibold text-stone-800 group-hover:text-brand-800 text-sm">{service.shortName}</h3></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* NEARBY AREAS */}
+  {nearbyAreas.length > 0 && (
+    <section class="bg-stone-50 py-16 lg:py-20">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <h2 class="text-center font-display text-2xl text-brand-900 sm:text-3xl">Nearby Industrial Zones</h2>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {nearbyAreas.map(n => <a href={areaUrl(n.slug)} class="group rounded-xl border border-stone-200 bg-white p-5 transition-all hover:border-brand-200 hover:shadow-md hover:-translate-y-0.5"><span class="font-semibold text-stone-800 group-hover:text-brand-800">{n.name}</span><p class="mt-1 text-xs text-stone-500">{n.county}</p></a>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <div class="border-t border-stone-200/60 bg-white"><SeoFaq area={area} /></div>
+  <div class="mx-auto max-w-7xl px-5 lg:px-8"><SeoTestimonials area={area} /></div>
+
+  {/* CTA */}
+  <section class="relative overflow-hidden bg-gradient-to-b from-brand-900 to-brand-950 py-20">
+    <div class="absolute inset-0"><img src="/images/gallery/workers-fabricating-sheet-metal-….webp" alt="" class="h-full w-full object-cover opacity-10" width="1200" height="670" loading="lazy" /></div>
+    <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+      <h2 class="font-display text-3xl text-white sm:text-4xl">Need Fabrication Services in {area.name}?</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-brand-200">{business.name} is a UAE-licensed HVAC duct manufacturer and sheet metal fabricator serving {area.name} and {area.county}. Contact us for a competitive project quotation.</p>
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href={business.phoneHref} class="group inline-flex items-center gap-2 rounded-lg bg-brand-500 px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-brand-400 hover:shadow-xl hover:scale-105"><Icon name="lucide:phone" class="size-5" />{business.phone}</a>
+        <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-green-500 hover:shadow-xl hover:scale-105"><Icon name="lucide:message-circle" class="size-5" />WhatsApp</a>
+        <a href={`mailto:${business.email}`} class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/20"><Icon name="lucide:mail" class="size-5" />{business.email}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+// Language toggle — switches between English and Arabic
+// Sets dir="rtl", lang="ar" on <html>, dispatches langChanged event
+---
+
+<button
+  type="button"
+  id="lang-toggle"
+  class="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition-all hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+  aria-label="Toggle language"
+>
+  <span id="lang-label">العربية</span>
+  <span class="text-[10px]">AR</span>
+</button>
+
+<script>
+  function switchBilingualContent(lang) {
+    document.querySelectorAll('.bilingual').forEach(el => {
+      const text = el.getAttribute('data-lang-' + lang);
+      if (text) el.textContent = text;
+    });
+    document.querySelectorAll('[data-lang-placeholder-en]').forEach(el => {
+      const ph = el.getAttribute('data-lang-placeholder-' + lang);
+      if (ph) el.setAttribute('placeholder', ph);
+    });
+  }
+
+  function applyLang(lang) {
+    const html = document.documentElement;
+    const label = document.getElementById('lang-label');
+    if (lang === 'ar') {
+      html.dir = 'rtl';
+      html.lang = 'ar';
+      if (label) label.textContent = 'English';
+    } else {
+      html.dir = 'ltr';
+      html.lang = 'en';
+      if (label) label.textContent = 'العربية';
+    }
+    // Switch bilingual content
+    switchBilingualContent(lang);
+    // Dispatch event for other components
+    document.dispatchEvent(new CustomEvent('langChanged', { detail: { lang } }));
+    try { localStorage.setItem('ductmasters-lang', lang); } catch {}
+  }
+
+  const saved = (() => { try { return localStorage.getItem('ductmasters-lang'); } catch { return null; } })();
+  if (saved === 'ar') applyLang('ar');
+
+  document.getElementById('lang-toggle')?.addEventListener('click', () => {
+    const isAr = document.documentElement.dir === 'rtl';
+    applyLang(isAr ? 'en' : 'ar');
+  });
+</script>

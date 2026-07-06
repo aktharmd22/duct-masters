@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { business, yearsInBusiness } from '../data/business';
+import { serviceTypes } from '../data/serviceTypes';
+import { serviceAreas } from '../data/serviceAreas';
+import { serviceUrl, areaUrl, contactUrl } from '../lib/urls';
+
+const years = yearsInBusiness();
+
+const galleryImages = [
+  { src: '/images/gallery/laser-machine-operator.webp', alt: 'CNC laser cutting machine in operation at Duct Masters' },
+  { src: '/images/gallery/technician_inspecting_hvac_duct_….webp', alt: 'Quality inspection of HVAC ductwork' },
+  { src: '/images/gallery/workers_collaborating_on_metal_f….webp', alt: 'Metal component fabrication at Musaffah facility' },
+  { src: '/images/gallery/engineers_reviewing_drawings_in_….webp', alt: 'Engineers reviewing fabrication drawings' },
+  { src: '/images/gallery/logo-on-uniform.webp', alt: 'Duct Masters factory team' },
+  { src: '/images/gallery/preparing-components.webp', alt: 'Preparing metal components for fabrication' },
+  { src: '/images/gallery/factory-uniforms.webp', alt: 'Duct Masters workshop team in uniform' },
+  { src: '/images/gallery/workers_handling_metal_sheets_wo….webp', alt: 'Handling sheet metal at Duct Masters facility' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', '@id': `${business.website}/#website`, url: business.website, name: business.name, description: business.description, publisher: { '@id': `${business.website}/#business` } },
+    { '@type': 'HVACBusiness', '@id': `${business.website}/#business`, name: business.name, legalName: business.legalName, url: business.website, telephone: business.phone, email: business.email, description: business.description, foundingDate: `${business.yearEstablished}`, address: { '@type': 'PostalAddress', streetAddress: business.address.street, addressLocality: business.address.city, addressRegion: business.address.state, addressCountry: 'AE' }, geo: { '@type': 'GeoCoordinates', latitude: business.coordinates.lat, longitude: business.coordinates.lng }, openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], opens: '08:00', closes: '17:00' }], areaServed: serviceAreas.filter(a => a.featured).map((area) => ({ '@type': 'City', name: area.name, containedInPlace: { '@type': 'AdministrativeArea', name: area.county } })), hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Fabrication Services', itemListElement: serviceTypes.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name, description: s.description } })) } },
+    { '@type': 'WebPage', '@id': `${business.website}/#webpage`, url: business.website, name: `${business.name} | HVAC Duct Manufacturing Abu Dhabi`, isPartOf: { '@id': `${business.website}/#website` }, about: { '@id': `${business.website}/#business` }, description: business.description },
+  ],
+};
+---
+
+<BaseLayout title={`${business.name} | HVAC Duct Manufacturing & Sheet Metal Fabrication Abu Dhabi`} description={business.description} schema={schema}>
+
+  <!-- HERO -->
+  <section class="relative min-h-[90vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="/images/gallery/factory-workshop.webp" alt="Duct Masters manufacturing facility in Musaffah, Abu Dhabi" class="h-full w-full object-cover" width="1200" height="670" loading="eager" />
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-950/95 via-brand-950/80 to-brand-950/40"></div>
+      <div class="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_rgba(46,104,156,0.3),_transparent_70%)]"></div>
+    </div>
+    <div class="relative mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32 w-full">
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-400 backdrop-blur-sm">
+          <Icon name="lucide:factory" class="size-3.5" />
+          <span class="bilingual" data-lang-en="Musaffah, Abu Dhabi — Since {business.yearEstablished}" data-lang-ar="مصفح، أبوظبي — منذ {business.yearEstablished}">Musaffah, Abu Dhabi — Since {business.yearEstablished}</span>
+        </span>
+        <h1 class="mt-6 font-display text-4xl leading-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl">
+          <span class="bilingual" data-lang-en="HVAC Duct Manufacturing" data-lang-ar="تصنيع مجاري الهواء">HVAC Duct Manufacturing</span><br />
+          <span class="bilingual text-accent-400" data-lang-en="&amp; Sheet Metal Fabrication" data-lang-ar="وتشكيل الصفائح المعدنية">&amp; Sheet Metal Fabrication</span>
+        </h1>
+        <p class="bilingual mt-6 max-w-xl text-lg leading-relaxed text-brand-200" data-lang-en="{business.tagline}. Custom ductwork and precision metal fabrication for commercial, industrial, and infrastructure projects — backed by {years}+ years in the UAE." data-lang-ar="{business.tagline}. تصنيع مجاري الهواء وتشكيل المعادن الدقيق للمشاريع التجارية والصناعية والبنية التحتية — بخبرة تتجاوز {years} عاماً في الإمارات.">{business.tagline}. Custom ductwork and precision metal fabrication for commercial, industrial, and infrastructure projects — backed by {years}+ years in the UAE.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href={business.phoneHref} class="group inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-brand-400 hover:shadow-xl hover:scale-105">
+            <Icon name="lucide:phone" class="size-5 transition-transform group-hover:scale-110" />
+            <span class="bilingual" data-lang-en="Call {business.phone}" data-lang-ar="اتصل {business.phone}">Call {business.phone}</span>
+          </a>
+          <a href={contactUrl()} class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:border-white/30">
+            <Icon name="lucide:file-text" class="size-5" />
+            <span class="bilingual" data-lang-en="Request a Quote" data-lang-ar="طلب عرض سعر">Request a Quote</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 animate-bounce">
+      <span class="bilingual text-[10px] uppercase tracking-[0.2em]" data-lang-en="Scroll" data-lang-ar="تصفح">Scroll</span>
+      <Icon name="lucide:chevron-down" class="size-4" />
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="relative -mt-1 bg-brand-950">
+    <div class="mx-auto grid max-w-7xl grid-cols-2 gap-px sm:grid-cols-4">
+      {[
+        { value: `${years}+`, en: 'Years Experience', ar: 'سنوات الخبرة', icon: 'lucide:award' },
+        { value: '10', en: 'Fabrication Services', ar: 'خدمات التشكيل', icon: 'lucide:settings' },
+        { value: 'M-40', en: 'Musaffah Facility', ar: 'منشأة مصفح', icon: 'lucide:map-pin' },
+        { value: 'UAE', en: 'Licensed Manufacturer', ar: 'مرخص في الإمارات', icon: 'lucide:shield-check' },
+      ].map((stat, i) => (
+        <div class="group flex flex-col items-center justify-center bg-brand-950 px-4 py-8 text-center transition-colors hover:bg-brand-900/50">
+          <Icon name={stat.icon} class="size-6 text-accent-400 transition-transform group-hover:scale-110" />
+          <span class="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">{stat.value}</span>
+          <span class="bilingual mt-1 text-xs font-medium uppercase tracking-wider text-stone-400" data-lang-en={stat.en} data-lang-ar={stat.ar}>{stat.en}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="bg-gradient-to-b from-white via-stone-50 to-white py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="text-center">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-700">
+          <Icon name="lucide:wrench" class="size-3.5" />
+          <span class="bilingual" data-lang-en="Our Capabilities" data-lang-ar="قدراتنا">Our Capabilities</span>
+        </span>
+        <h2 class="bilingual mt-4 font-display text-3xl text-brand-900 sm:text-4xl lg:text-5xl" data-lang-en="Complete Fabrication Services" data-lang-ar="خدمات التشكيل المتكاملة">Complete Fabrication Services</h2>
+        <p class="bilingual mx-auto mt-4 max-w-2xl text-stone-600" data-lang-en="From HVAC duct manufacturing to precision laser cutting and custom industrial fabrication — everything you need from a single facility in Musaffah." data-lang-ar="من تصنيع مجاري التكييف إلى القطع بالليزر عالي الدقة والتشكيل الصناعي المخصص — كل ما تحتاجه من منشأة واحدة في مصفح.">From HVAC duct manufacturing to precision laser cutting and custom industrial fabrication — everything you need from a single facility in Musaffah.</p>
+      </div>
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {serviceTypes.map((service, i) => (
+          <a href={serviceUrl(service.slug)} class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white to-stone-50 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+            <div class="relative h-48 overflow-hidden">
+              <img src={galleryImages[i % galleryImages.length].src} alt={service.name} class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" width="1200" height="670" loading={i < 6 ? 'eager' : 'lazy'} />
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/30 to-transparent"></div>
+              <div class="absolute top-4 left-4 flex size-10 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm transition-colors group-hover:bg-brand-500">
+                <Icon name={service.icon} class="size-5 text-white" />
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display text-lg text-brand-900 group-hover:text-brand-700">{service.name}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-stone-600 line-clamp-2">{service.description}</p>
+              <div class="mt-4 flex items-center gap-1 text-sm font-semibold text-brand-600 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:gap-2">
+                <span class="bilingual" data-lang-en="Learn more" data-lang-ar="اعرف المزيد">Learn more</span> <Icon name="lucide:arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="overflow-hidden bg-gradient-to-br from-white via-stone-50 to-accent-50/30">
+    <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="relative">
+          <div class="relative overflow-hidden rounded-2xl">
+            <img src="/images/gallery/workers_collaborating_on_metal_f….webp" alt="Duct Masters fabrication team at work" class="w-full object-cover" width="1200" height="670" loading="lazy" />
+          </div>
+          <div class="absolute -bottom-6 -right-6 rounded-xl bg-brand-900 p-5 shadow-xl hidden lg:block">
+            <span class="font-display text-3xl font-bold text-white">{years}+</span>
+            <p class="bilingual text-xs text-brand-300" data-lang-en="Years in UAE" data-lang-ar="عاماً في الإمارات">Years in UAE</p>
+          </div>
+        </div>
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-700">
+            <Icon name="lucide:building-2" class="size-3.5" />
+            <span class="bilingual" data-lang-en="About Duct Masters" data-lang-ar="عن دكت ماسترز">About Duct Masters</span>
+          </span>
+          <h2 class="bilingual mt-4 font-display text-3xl text-brand-900 sm:text-4xl" data-lang-en="Abu Dhabi's Trusted HVAC Duct Manufacturer" data-lang-ar="الشركة الرائدة في تصنيع مجاري التكييف في أبوظبي">Abu Dhabi's Trusted HVAC Duct Manufacturer</h2>
+          <p class="mt-6 text-lg leading-relaxed text-stone-600">Duct Masters is an Abu Dhabi-based HVAC duct manufacturing and sheet metal fabrication company operating from M-40, Musaffah. Since {business.yearEstablished}, we have supplied air conditioning ducting products and custom metal fabrication solutions for commercial, industrial, construction, and infrastructure projects across the UAE.</p>
+          <p class="mt-4 text-stone-600">With a focus on quality manufacturing, accurate production, and reliable project support, we serve contractors, HVAC companies, construction firms, facility operators, and industrial clients.</p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="/about/" class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-700">
+              <span class="bilingual" data-lang-en="Learn More About Us" data-lang-ar="اعرف المزيد عنا">Learn More About Us</span> <Icon name="lucide:arrow-right" class="size-4" />
+            </a>
+            <a href={business.phoneHref} class="inline-flex items-center gap-2 rounded-lg border border-stone-300 px-5 py-3 text-sm font-semibold text-stone-700 transition-all hover:bg-stone-50">
+              <Icon name="lucide:phone" class="size-4" /> {business.phone}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="bg-gradient-to-b from-brand-950 via-brand-950 to-brand-900 py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="text-center">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-800/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-400">
+          <Icon name="lucide:list-checks" class="size-3.5" />
+          <span class="bilingual" data-lang-en="Our Process" data-lang-ar="منهجية العمل">Our Process</span>
+        </span>
+        <h2 class="bilingual mt-4 font-display text-3xl text-white sm:text-4xl lg:text-5xl" data-lang-en="How We Deliver Your Project" data-lang-ar="كيف ننجز مشروعك">How We Deliver Your Project</h2>
+        <p class="bilingual mx-auto mt-4 max-w-2xl text-brand-300" data-lang-en="From inquiry to delivery — every project follows a structured process ensuring quality, accuracy, and on-time completion." data-lang-ar="من الاستفسار إلى التسليم — كل مشروع يتبع عملية منظمة تضمن الجودة والدقة والتسليم في الوقت المحدد.">From inquiry to delivery — every project follows a structured process ensuring quality, accuracy, and on-time completion.</p>
+      </div>
+      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { step: 1, enTitle: 'Submit Inquiry', arTitle: 'تقديم الاستفسار', enDesc: 'Share your project drawings, specifications, and quantities. We review and confirm feasibility within one business day.', arDesc: 'شارك رسومات مشروعك ومواصفاته وكمياته. نقوم بالمراجعة وتأكيد الجدوى خلال يوم عمل واحد.', icon: 'lucide:file-text' },
+          { step: 2, enTitle: 'Quotation & Approval', arTitle: 'عرض السعر والموافقة', enDesc: 'Receive a detailed quotation with pricing breakdown, production timeline, and delivery schedule for your review.', arDesc: 'استلم عرض سعر مفصل يتضمن تفصيل الأسعار والجدول الزمني للإنتاج وجدول التسليم للمراجعة.', icon: 'lucide:calculator' },
+          { step: 3, enTitle: 'Fabrication', arTitle: 'التصنيع', enDesc: 'Your order enters production. Cutting, forming, welding, assembly, and finishing using CNC equipment and skilled fabricators.', arDesc: 'يدخل طلبك مرحلة الإنتاج. القطع والتشكيل واللحام والتجميع والتشطيب باستخدام معدات CNC وفنيين مهرة.', icon: 'lucide:wrench' },
+          { step: 4, enTitle: 'QC & Delivery', arTitle: 'فحص الجودة والتسليم', enDesc: 'Quality inspection, protective packing, and on-time delivery to your project site across Abu Dhabi or the UAE.', arDesc: 'فحص الجودة والتغليف الواقي والتسليم في الوقت المحدد لموقع مشروعك في أبوظبي أو أي مكان في الإمارات.', icon: 'lucide:truck' },
+        ].map((item) => (
+          <div class="group relative rounded-2xl border border-brand-800/50 bg-brand-900/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-brand-600/50 hover:bg-brand-900/80">
+            <div class="flex items-center gap-4">
+              <div class="flex size-12 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-lg font-bold text-white transition-transform group-hover:scale-110">{item.step}</div>
+              <div class="h-px flex-1 bg-gradient-to-r from-brand-500/50 to-transparent hidden sm:block"></div>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+              <Icon name={item.icon} class="size-5 text-accent-400" />
+              <h3 class="bilingual font-display text-lg text-white" data-lang-en={item.enTitle} data-lang-ar={item.arTitle}>{item.enTitle}</h3>
+            </div>
+            <p class="bilingual mt-3 text-sm leading-relaxed text-brand-300" data-lang-en={item.enDesc} data-lang-ar={item.arDesc}>{item.enDesc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="bg-gradient-to-b from-stone-50 via-stone-100 to-stone-50 py-20 lg:py-28 overflow-hidden">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="text-center">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-700">
+          <Icon name="lucide:camera" class="size-3.5" />
+          <span class="bilingual" data-lang-en="Our Workshop" data-lang-ar="الورشة">Our Workshop</span>
+        </span>
+        <h2 class="bilingual mt-4 font-display text-3xl text-brand-900 sm:text-4xl lg:text-5xl" data-lang-en="Inside Our Facility" data-lang-ar="داخل منشأتنا">Inside Our Facility</h2>
+        <p class="bilingual mx-auto mt-4 max-w-2xl text-stone-600" data-lang-en="See our manufacturing workshop in Musaffah — equipped with CNC laser cutters, press brakes, welding stations, and professional fabrication tools." data-lang-ar="شاهد ورشة التصنيع لدينا في مصفح — مجهزة بقواطع ليزر CNC ومكابس ضغط ومحطات لحام وأدوات تشكيل احترافية.">See our manufacturing workshop in Musaffah — equipped with CNC laser cutters, press brakes, welding stations, and professional fabrication tools.</p>
+      </div>
+    </div>
+    <div class="mt-12 flex gap-4 overflow-x-auto px-5 pb-6 lg:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div class="mx-auto flex max-w-7xl gap-4">
+        {galleryImages.map((img, i) => (
+          <div class="group relative w-72 shrink-0 overflow-hidden rounded-2xl sm:w-80 lg:w-96">
+            <img src={img.src} alt={img.alt} class="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-110 sm:h-64 lg:h-72" width="1200" height="670" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-950/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100">
+              <div class="absolute bottom-0 left-0 right-0 p-4"><p class="text-xs text-white/80 leading-relaxed">{img.alt}</p></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AREAS -->
+  <section class="bg-white py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="text-center">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-700">
+          <Icon name="lucide:map-pin" class="size-3.5" />
+          <span class="bilingual" data-lang-en="Service Areas" data-lang-ar="مناطق الخدمة">Service Areas</span>
+        </span>
+        <h2 class="bilingual mt-4 font-display text-3xl text-brand-900 sm:text-4xl lg:text-5xl" data-lang-en="Industrial Zones We Serve" data-lang-ar="المناطق الصناعية التي نخدمها">Industrial Zones We Serve</h2>
+        <p class="bilingual mx-auto mt-4 max-w-2xl text-stone-600" data-lang-en="Manufacturing and delivering across {business.serviceRadius} with our facility centrally located in Musaffah." data-lang-ar="التصنيع والتسليم في جميع أنحاء {business.serviceRadius} مع موقع منشأتنا المركزي في مصفح.">Manufacturing and delivering across {business.serviceRadius} with our facility centrally located in Musaffah.</p>
+      </div>
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {serviceAreas.map((area, i) => (
+          <a href={areaUrl(area.slug)} class="group flex items-center gap-4 rounded-xl border border-stone-200 bg-stone-50 p-5 transition-all duration-300 hover:border-brand-200 hover:bg-white hover:shadow-md hover:-translate-y-0.5">
+            <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 transition-colors group-hover:bg-brand-100"><Icon name="lucide:map-pin" class="size-5 text-brand-600" /></div>
+            <div><h3 class="font-semibold text-stone-800 group-hover:text-brand-800">{area.name}</h3><p class="text-xs text-stone-500">{area.county}</p></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative overflow-hidden bg-brand-950">
+    <div class="absolute inset-0"><img src="/images/gallery/workers_fabricating_sheet_metal_….webp" alt="Duct Masters fabrication workshop" class="h-full w-full object-cover opacity-15" width="1200" height="670" loading="lazy" /></div>
+    <div class="relative mx-auto max-w-7xl px-5 py-20 text-center lg:px-8 lg:py-28">
+      <h2 class="bilingual font-display text-3xl text-white sm:text-4xl lg:text-5xl" data-lang-en="Ready to Start Your Project?" data-lang-ar="هل أنت مستعد لبدء مشروعك؟">Ready to Start Your Project?</h2>
+      <p class="bilingual mx-auto mt-4 max-w-xl text-lg text-brand-200" data-lang-en="Send us your drawings and specifications. We provide competitive quotations for HVAC duct manufacturing, sheet metal fabrication, and custom metal works across Abu Dhabi and the UAE." data-lang-ar="أرسل لنا رسوماتك ومواصفاتك. نقدم عروض أسعار تنافسية لتصنيع مجاري التكييف وتشكيل الصفائح المعدنية والأعمال المعدنية المخصصة في جميع أنحاء أبوظبي والإمارات.">Send us your drawings and specifications. We provide competitive quotations for HVAC duct manufacturing, sheet metal fabrication, and custom metal works across Abu Dhabi and the UAE.</p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a href={business.phoneHref} class="group inline-flex items-center gap-2 rounded-lg bg-brand-500 px-8 py-4 text-sm font-semibold text-white shadow-lg transition-all hover:bg-brand-400 hover:shadow-xl hover:scale-105"><Icon name="lucide:phone" class="size-5 transition-transform group-hover:scale-110" />{business.phone}</a>
+        <a href={`mailto:${business.email}`} class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20"><Icon name="lucide:mail" class="size-5" />{business.email}</a>
+        <a href={business.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20"><Icon name="lucide:map-pin" class="size-5" /><span class="bilingual" data-lang-en="Visit Us in Musaffah" data-lang-ar="زرنا في مصفح">Visit Us in Musaffah</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
