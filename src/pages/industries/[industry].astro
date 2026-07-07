@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { Icon } from 'astro-icon/components';
 import { business } from '../../data/business';
 import { serviceTypes } from '../../data/serviceTypes';
@@ -102,66 +101,93 @@ if (!data) {
     title={`${data.name} | HVAC Duct Manufacturing | ${business.name}`}
     description={data.description}
   >
-    <Breadcrumbs crumbs={[{ label: 'Industries', href: '/industries/' }, { label: data.name }]} />
 
-    <section class="bg-gradient-to-br from-brand-900 to-brand-800 py-16 lg:py-20">
-      <div class="mx-auto max-w-7xl px-5 lg:px-8">
-        <h1 class="font-display text-4xl text-white sm:text-5xl">{data.name}</h1>
-        <p class="mt-4 max-w-2xl text-lg text-brand-200">{data.description}</p>
+    <section class="relative -mt-16 flex min-h-[58vh] items-center overflow-hidden bg-brand-950 pt-32 pb-20 lg:-mt-[76px] lg:min-h-[60vh] lg:pt-40 lg:pb-24">
+      <div class="absolute inset-0">
+        <img src="/images/gallery/factory-uniforms.webp" alt="" class="h-full w-full object-cover" width="1200" height="670" loading="eager" />
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-950/95 via-brand-950/88 to-brand-950/70"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_55%_60%_at_18%_45%,_rgba(46,150,227,0.24),_transparent_70%)]"></div>
+        <div class="blueprint-grid-dark absolute inset-0 opacity-30"></div>
+      </div>
+      <div class="relative mx-auto w-full max-w-7xl px-5 lg:px-8">
+        <span data-reveal class="inline-flex size-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white shadow-lg backdrop-blur-sm">
+          <Icon name="lucide:building-2" class="size-7" />
+        </span>
+        <h1 data-reveal style="--reveal-delay: 80ms" class="mt-6 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">{data.name}</h1>
+        <p data-reveal style="--reveal-delay: 160ms" class="mt-5 max-w-2xl text-lg leading-relaxed text-brand-100">{data.description}</p>
       </div>
     </section>
 
-    <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
-      <div class="grid gap-12 lg:grid-cols-3">
-        <div class="lg:col-span-2 prose-editorial max-w-none">
-          <h2>Serving {data.name} Across Abu Dhabi</h2>
-          <p>{data.description}</p>
-          <p>{data.whyDuctMasters}</p>
-          <p>Based in M-40, Musaffah, {business.name} has been serving contractors, developers, and project owners across Abu Dhabi since {business.yearEstablished}. Contact us to discuss how we can support your next {data.name.toLowerCase()} project.</p>
-        </div>
-
-        <aside class="space-y-8">
-          <div class="rounded-xl border border-stone-200 bg-stone-50 p-6">
-            <h3 class="font-display text-lg text-brand-900">Relevant Services</h3>
-            <ul class="mt-4 space-y-2">
-              {data.services.map((slug) => {
-                const svc = serviceTypes.find((s) => s.slug === slug);
-                if (!svc) return null;
-                return (
-                  <li>
-                    <a href={serviceUrl(svc.slug)} class="flex items-center gap-2 text-sm text-brand-600 hover:text-brand-700">
-                      <Icon name="lucide:arrow-right" class="size-3.5" />
-                      {svc.name}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <div class="rounded-xl bg-brand-900 p-6 text-center">
-            <h3 class="font-display text-lg text-white">Get a Quote</h3>
-            <p class="mt-2 text-sm text-brand-200">Send us your project details for a competitive quotation.</p>
-            <a href={business.phoneHref} class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600">
-              <Icon name="lucide:phone" class="size-4" />{business.phone}
-            </a>
-          </div>
-        </aside>
+    <section class="gradient-animated relative overflow-hidden py-20 lg:py-28">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="animate-aurora-a absolute -left-24 top-0 h-[30rem] w-[30rem] rounded-full bg-accent-400/25 blur-[120px]"></div>
+        <div class="animate-aurora-b absolute -bottom-20 right-0 h-[28rem] w-[28rem] rounded-full bg-brand-400/20 blur-[120px]"></div>
       </div>
-    </div>
+      <div class="relative mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="grid gap-8 lg:grid-cols-3 lg:gap-10">
+          <div data-reveal="left" class="lg:col-span-2">
+            <div class="rounded-3xl border border-white/60 bg-white/80 p-8 shadow-xl shadow-brand-900/5 backdrop-blur-md lg:p-10">
+              <div class="prose-editorial max-w-none">
+                <h2>Serving {data.name} Across Abu Dhabi</h2>
+                <p>{data.description}</p>
+                <p>{data.whyDuctMasters}</p>
+                <p>Based in M-40, Musaffah, {business.name} has been serving contractors, developers, and project owners across Abu Dhabi since {business.yearEstablished}. Contact us to discuss how we can support your next {data.name.toLowerCase()} project.</p>
+              </div>
+            </div>
+          </div>
 
-    <section class="bg-brand-900 py-16">
-      <div class="mx-auto max-w-4xl px-5 text-center lg:px-8">
-        <h2 class="font-display text-2xl text-white sm:text-3xl">Work With Duct Masters</h2>
-        <p class="mx-auto mt-4 max-w-2xl text-brand-200">We provide HVAC duct manufacturing, sheet metal fabrication, and custom metal works for {data.name.toLowerCase()} across Abu Dhabi and the UAE.</p>
-        <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a href={business.phoneHref} class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-400 hover:shadow-md">
+          <aside class="space-y-6">
+            <div data-reveal="right" class="rounded-3xl border border-white/60 bg-white/80 p-6 shadow-lg shadow-brand-900/5 backdrop-blur-md">
+              <h3 class="font-display text-lg font-bold tracking-tight text-brand-900">Relevant Services</h3>
+              <ul class="mt-4 space-y-1">
+                {data.services.map((slug) => {
+                  const svc = serviceTypes.find((s) => s.slug === slug);
+                  if (!svc) return null;
+                  return (
+                    <li>
+                      <a href={serviceUrl(svc.slug)} class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-stone-700 transition-colors hover:bg-brand-50 hover:text-brand-700">
+                        <span class="flex size-7 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-500 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-500 group-hover:text-white group-hover:ring-brand-500">
+                          <Icon name="lucide:arrow-right" class="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                        </span>
+                        {svc.name}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div data-reveal="right" style="--reveal-delay: 120ms" class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-800 to-brand-950 p-6 text-center ring-1 ring-white/10">
+              <div class="blueprint-grid-dark absolute inset-0 opacity-50"></div>
+              <div class="absolute -top-16 -right-10 h-40 w-40 rounded-full bg-accent-500/20 blur-[70px] animate-glow"></div>
+              <div class="relative">
+                <h3 class="font-display text-lg font-bold tracking-tight text-white">Get a Quote</h3>
+                <p class="mt-2 text-sm text-brand-200">Send us your project details for a competitive quotation.</p>
+                <a href={business.phoneHref} class="btn-shine group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-accent-500 to-brand-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent-600/50">
+                  <Icon name="lucide:phone" class="size-4 transition-transform group-hover:rotate-12" />{business.phone}
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative overflow-hidden bg-brand-950 py-16">
+      <div class="blueprint-grid-dark absolute inset-0 opacity-70"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/85 to-brand-950/70"></div>
+      <div class="absolute -bottom-24 left-1/2 h-80 w-[42rem] -translate-x-1/2 rounded-full bg-accent-500/15 blur-[120px]"></div>
+      <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <h2 data-reveal class="font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">Work With Duct Masters</h2>
+        <p data-reveal style="--reveal-delay: 80ms" class="mx-auto mt-4 max-w-2xl text-brand-200">We provide HVAC duct manufacturing, sheet metal fabrication, and custom metal works for {data.name.toLowerCase()} across Abu Dhabi and the UAE.</p>
+        <div data-reveal style="--reveal-delay: 160ms" class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a href={business.phoneHref} class="btn-shine group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-accent-500 to-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent-600/50">
             <Icon name="lucide:phone" class="size-4" />{business.phone}
           </a>
-          <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-500">
+          <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-green-500">
             <Icon name="lucide:message-circle" class="size-4" />WhatsApp
           </a>
-          <a href={contactUrl()} class="inline-flex items-center gap-2 rounded-lg border border-brand-300/40 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-800">
+          <a href={contactUrl()} class="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-white/30 hover:bg-white/10">
             <Icon name="lucide:mail" class="size-4" />Request a Quote
           </a>
         </div>

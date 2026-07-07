@@ -36,7 +36,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Sheet Metal',
     description:
       'Comprehensive sheet metal fabrication for HVAC, construction, industrial, commercial, and infrastructure projects. Services include cutting, forming, bending, shaping, joining, and finishing sheet metal components to exact project specifications.',
-    image: '/images/services/sheet-metal-fabrication.webp',
+    image: '/images/gallery/workers_fabricating_sheet_metal_….webp',
     icon: 'lucide:layout-panel-top',
     emergency: false,
     featured: true,
@@ -61,7 +61,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Duct Fab',
     description:
       'Manufacturing and fabrication of HVAC duct systems for air conditioning and ventilation projects. This is one of our core services — custom ductwork for commercial, industrial, and infrastructure HVAC systems, built to SMACNA and project standards.',
-    image: '/images/services/duct-fabrication.webp',
+    image: '/images/gallery/workers_in_duct_manufacturing_wo….webp',
     icon: 'lucide:air-vent',
     emergency: false,
     featured: true,
@@ -86,7 +86,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Laser Cut',
     description:
       'Precision laser cutting services for metal sheets and custom components. Suitable for industrial fabrication, HVAC accessories, construction components, and custom metal works. High-accuracy CNC fiber laser cutting with tight tolerances.',
-    image: '/images/services/laser-cutting.webp',
+    image: '/images/gallery/laser-machine-operator.webp',
     icon: 'lucide:scissors-line-dashed',
     emergency: false,
     featured: true,
@@ -111,7 +111,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'CNC Forming',
     description:
       'CNC metal forming and bending services for accurate metal shaping. Our CNC press brakes and forming equipment support duct fabrication, sheet metal fabrication, and customized industrial components with repeatable precision.',
-    image: '/images/services/cnc-forming.webp',
+    image: '/images/gallery/indian_technician_operating_cnc_….webp',
     icon: 'lucide:fold-vertical',
     emergency: false,
     featured: false,
@@ -136,7 +136,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Welding',
     description:
       'Industrial welding services for fabricated metal components, duct-related supports, frames, structures, and custom metal works. MIG, TIG, and arc welding capabilities for mild steel, stainless steel, and aluminum.',
-    image: '/images/services/welding.webp',
+    image: '/images/gallery/indian_workers_fabricating_hvac_….webp',
     icon: 'lucide:flame',
     emergency: false,
     featured: false,
@@ -161,7 +161,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Roll & Punch',
     description:
       'Metal rolling and punching services for fabrication projects requiring shaped, perforated, or prepared metal sections. Plate rolling, section rolling, and CNC punching for HVAC components, structural sections, and custom profiles.',
-    image: '/images/services/rolling-punching.webp',
+    image: '/images/gallery/indian_worker_operating_metal_ma….webp',
     icon: 'lucide:move-diagonal',
     emergency: false,
     featured: false,
@@ -186,7 +186,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Custom Fab',
     description:
       'Custom fabrication solutions for contractors, HVAC companies, construction firms, and industrial clients requiring project-specific metal parts, assemblies, or structures. Turnkey fabrication from concept to delivery.',
-    image: '/images/services/custom-fabrication.webp',
+    image: '/images/gallery/workers_fabricating_metal_compon….webp',
     icon: 'lucide:cog',
     emergency: false,
     featured: false,
@@ -211,7 +211,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Powder Coat',
     description:
       'Powder coating and finishing services for fabricated metal products. Improves durability, appearance, corrosion resistance, and project-ready quality. Suitable for duct accessories, metal enclosures, structural components, and custom fabrications.',
-    image: '/images/services/powder-coating.webp',
+    image: '/images/gallery/preparing-components.webp',
     icon: 'lucide:spray-can',
     emergency: false,
     featured: false,
@@ -236,7 +236,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Design',
     description:
       'Duct system design and engineering support for HVAC duct manufacturing and project requirements. Includes technical coordination, fabrication planning, shop drawing preparation, and project-specific duct solutions.',
-    image: '/images/services/design-engineering.webp',
+    image: '/images/gallery/engineers_reviewing_drawings_in_….webp',
     icon: 'lucide:pencil-ruler',
     emergency: false,
     featured: false,
@@ -261,7 +261,7 @@ export const serviceTypes: ServiceType[] = [
     shortName: 'Supply',
     description:
       'Supply and delivery of manufactured ducting products and fabricated components for projects across Abu Dhabi and the UAE. Reliable logistics support with on-time delivery to project sites, including installation coordination where required.',
-    image: '/images/services/supply-delivery.webp',
+    image: '/images/gallery/technicians_working_on_duct_sect….webp',
     icon: 'lucide:truck',
     emergency: false,
     featured: false,
