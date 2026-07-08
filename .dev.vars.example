@@ -1,0 +1,8 @@
+# Cloudflare Pages / Wrangler local secrets template.
+# Copy this file to ".dev.vars" (which is gitignored) and paste your real key.
+# Create a key at: https://resend.com/api-keys
+#
+# In production, set the SAME variable in:
+#   Cloudflare Pages → your project → Settings → Environment variables → RESEND_API_KEY
+
+RESEND_API_KEY=re_your_api_key_here

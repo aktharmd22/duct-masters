@@ -93,7 +93,7 @@ export const business: Business = {
   schemaType: 'HVACBusiness',
   serviceRadius: 'Abu Dhabi and across the UAE',
   logo: '/images/logo.png',
-  logoWhite: '/images/logo.png',
+  logoWhite: '/images/logo-white.png',
   ogImage: '/images/og-image.jpg',
 };
 

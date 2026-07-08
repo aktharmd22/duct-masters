@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "preview:cf": "astro build && wrangler pages dev dist",
     "astro": "astro"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.91"
+    "@iconify-json/lucide": "^1.2.91",
+    "wrangler": "^4.108.0"
   }
 }

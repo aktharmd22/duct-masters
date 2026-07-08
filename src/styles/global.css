@@ -12,8 +12,8 @@
 
 @theme {
   /* --- Typography --- */
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
 
   /* --- Brand Color Palette (Deep Navy → Steel Blue) ---
      Base hue 210, saturation 52-55%, lightness from 96% to 8%
@@ -23,12 +23,12 @@
   --color-brand-200: hsl(210, 52%, 79%);
   --color-brand-300: hsl(210, 52%, 66%);
   --color-brand-400: hsl(210, 53%, 52%);
-  --color-brand-500: hsl(209, 55%, 40%);  /* Steel Blue #2E689C */
+  --color-brand-500: #2E689C;             /* Steel Blue */
   --color-brand-600: hsl(209, 55%, 32%);
   --color-brand-700: hsl(210, 52%, 24%);
   --color-brand-800: hsl(210, 52%, 18%);
-  --color-brand-900: hsl(210, 52%, 14%);  /* Deep Navy #112336 */
-  --color-brand-950: hsl(210, 55%, 7%);
+  --color-brand-900: #112336;             /* Deep Navy */
+  --color-brand-950: hsl(210, 52%, 8%);
 
   /* --- Accent Palette (Sky Blue) ---
      For highlights, hover effects, section backgrounds.
@@ -38,9 +38,9 @@
   --color-accent-100: hsl(208, 64%, 89%);
   --color-accent-200: hsl(208, 64%, 79%);
   --color-accent-300: hsl(208, 64%, 74%);
-  --color-accent-400: hsl(208, 72%, 70%); /* Accent Sky Blue #81B5E3 */
-  --color-accent-500: hsl(200, 85%, 60%);
-  --color-accent-600: hsl(200, 90%, 50%);
+  --color-accent-400: #81B5E3;            /* Accent Sky Blue */
+  --color-accent-500: hsl(208, 64%, 60%);
+  --color-accent-600: hsl(208, 64%, 48%);
   --color-accent-700: hsl(208, 64%, 36%);
   --color-accent-800: hsl(208, 64%, 26%);
   --color-accent-900: hsl(208, 64%, 18%);
@@ -85,15 +85,6 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-}
-
-body {
-  font-feature-settings: "cv11", "ss01";
-  letter-spacing: -0.011em;
-}
-
-.font-display {
-  letter-spacing: -0.02em;
 }
 
 ::selection {
@@ -274,7 +265,7 @@ button:focus-visible {
 }
 
 @utility glow-accent {
-  box-shadow: 0 0 0 1px rgba(129, 181, 227, 0.25), 0 20px 55px -20px rgba(46, 150, 227, 0.7);
+  box-shadow: 0 0 0 1px rgba(129, 181, 227, 0.25), 0 20px 55px -20px rgba(46, 104, 156, 0.7);
 }
 
 @utility ring-shine {

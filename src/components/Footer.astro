@@ -13,35 +13,58 @@ import { t } from '../i18n/translations';
   <div class="blueprint-grid-dark absolute inset-0 opacity-50"></div>
   <div class="absolute -top-32 right-0 h-80 w-80 rounded-full bg-brand-500/10 blur-[110px]"></div>
   <div class="relative mx-auto max-w-7xl px-5 pb-10 pt-16 lg:px-8 lg:pt-20">
-    <!-- Top row: logo + description -->
+    <!-- Top row: logo + description + map -->
     <div class="border-b border-white/10 pb-10">
-      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div class="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
         <div class="max-w-md">
           <a href="/" class="inline-flex items-center gap-2.5">
             <img
               src={business.logoWhite}
               alt="Duct Masters Logo"
-              class="h-12 w-auto"
+              class="h-16 w-auto lg:h-20"
               width="1441" height="935"
             />
           </a>
           <p class="mt-4 text-sm leading-relaxed text-stone-400">
             {business.tagline}. Established {business.yearEstablished}, serving contractors and projects across the UAE from our facility in Musaffah, Abu Dhabi.
           </p>
+          <a
+            href={business.phoneHref}
+            class="group mt-6 inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-sm transition-all hover:border-accent-400/40 hover:bg-white/10"
+          >
+            <div class="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-accent-500 to-brand-500 transition-transform group-hover:scale-110">
+              <Icon name="lucide:phone" class="size-5 text-white" />
+            </div>
+            <div>
+              <p class="text-xs text-stone-400">Call us today</p>
+              <p class="font-semibold text-white">{business.phone}</p>
+            </div>
+          </a>
         </div>
 
-        <a
-          href={business.phoneHref}
-          class="group inline-flex shrink-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-sm transition-all hover:border-accent-400/40 hover:bg-white/10"
-        >
-          <div class="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-accent-500 to-brand-500 transition-transform group-hover:scale-110">
-            <Icon name="lucide:phone" class="size-5 text-white" />
-          </div>
-          <div>
-            <p class="text-xs text-stone-400">Call us today</p>
-            <p class="font-semibold text-white">{business.phone}</p>
-          </div>
-        </a>
+        <!-- Location map -->
+        <div class="relative overflow-hidden rounded-2xl border border-white/10 shadow-lg shadow-brand-950/50 ring-1 ring-white/5">
+          <iframe
+            title="Duct Masters location — M-40, Musaffah, Abu Dhabi"
+            src="https://www.google.com/maps?q=9F3P%2B3VH%20Duct%20Masters%20-%20Musaffah%20-%20M40%20-%20Abu%20Dhabi&z=17&hl=en&output=embed"
+            width="100%"
+            height="256"
+            style="border:0; display:block;"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+            class="h-56 w-full lg:h-64"
+          ></iframe>
+          <a
+            href={business.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-lg bg-brand-950/80 px-3 py-2 text-xs font-semibold text-white backdrop-blur-sm ring-1 ring-white/15 transition-colors hover:bg-brand-900"
+          >
+            <Icon name="lucide:navigation" class="size-3.5 text-accent-400" />
+            Get Directions
+          </a>
+        </div>
       </div>
     </div>
 

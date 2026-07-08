@@ -13,7 +13,7 @@ import { business } from '../data/business';
     <div class="absolute inset-0">
       <img src="/images/gallery/engineers-reviewing-drawings-in-….webp" alt="" class="h-full w-full object-cover" width="1200" height="670" loading="eager" />
       <div class="absolute inset-0 bg-gradient-to-b from-brand-950/92 via-brand-950/82 to-brand-950/96"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,_rgba(46,150,227,0.28),_transparent_70%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,_rgba(46,104,156,0.28),_transparent_70%)]"></div>
       <div class="blueprint-grid-dark absolute inset-0 opacity-30"></div>
     </div>
     <div class="relative mx-auto w-full max-w-3xl px-5 text-center lg:px-8">
@@ -112,7 +112,8 @@ import { business } from '../data/business';
               Include your project details or upload drawings for a faster quotation.
             </p>
 
-            <form class="mt-6 space-y-5" action="#" method="POST">
+            <form id="contact-form" class="mt-6 space-y-5" action="/api/contact" method="POST">
+              <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
               <div>
                 <label for="name" class="block text-sm font-medium text-stone-700">Full Name *</label>
                 <input
@@ -193,6 +194,8 @@ import { business } from '../data/business';
                 ></textarea>
               </div>
 
+              <p id="form-status" class="hidden" role="status" aria-live="polite"></p>
+
               <button
                 type="submit"
                 class="btn-shine group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-accent-500 to-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent-600/50"
@@ -206,4 +209,39 @@ import { business } from '../data/business';
       </div>
     </div>
   </section>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const statusEl = document.getElementById('form-status');
+    if (form && statusEl) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+        const original = btn ? btn.innerHTML : '';
+        if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; btn.innerHTML = 'Sending…'; }
+        statusEl.className = 'hidden';
+        const show = (ok: boolean, msg: string) => {
+          statusEl.textContent = msg;
+          statusEl.className = 'rounded-xl px-4 py-3 text-sm font-medium';
+          statusEl.style.cssText = ok
+            ? 'border:1px solid #bbf7d0;background:#f0fdf4;color:#166534'
+            : 'border:1px solid #fecaca;background:#fef2f2;color:#b91c1c';
+        };
+        try {
+          const res = await fetch('/api/contact', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.ok) {
+            form.reset();
+            show(true, "Thank you! Your inquiry has been sent — we'll get back to you within one business day.");
+          } else {
+            show(false, data.error || 'Sorry, something went wrong. Please call or WhatsApp us.');
+          }
+        } catch {
+          show(false, 'Network error. Please try again, or call/WhatsApp us.');
+        } finally {
+          if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = original; }
+        }
+      });
+    }
+  </script>
 </BaseLayout>
